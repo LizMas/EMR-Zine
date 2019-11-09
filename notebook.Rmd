@@ -1,0 +1,48 @@
+---
+title: "Yemen and the Horn of Africa: a nexus of irregular migration, climate disasters, and confict"
+output: html_notebook
+---
+
+```{r}
+library(bookdown)
+library(readr)
+library(readxl)
+library(here)
+library(tidyverse)
+```
+
+
+Modern-day Yemen sits at the crossroads of millennia-old migration routes, linking Africa and Asia and serving as a gateway to the rich countries in the Arabian Gulf. The only signatory to the 1951 Refugee Convention and the subsequent 1967 Protocol Relating to the Status of Refugees in the Arabian Peninsula,  Yemen has made a name for itself as a place of refuge for those fleeing their home countries despite being one of the poorest countries in the region. Now, in the midst of a protracted civil war and the worst humanitarian crisis in recent history, Yemen’s historic hospitality and strategic location is continuing to pull migrants from the Horn of Africa to the detriment of migrant well-being and the country’s stability. 
+
+Meanwhile, across the Red Sea, the Horn of Africa faces a cycle of catastrophic droughts and floods that destroy homes and livelihoods, as well as political and ethnic violence and a bleak economic outlook. The lure of making money in the GCC prompts hundreds of thousands to make the dangerous journey through Yemen regardless of the dangers they will face along the way. 
+
+Irregular migration is inherently difficult to study and especially hard to quantify; nowhere is this problem more apparent than in the Horn of Africa and Yemen. Covert entry, reliance on smugglers, and the difficulties of collecting data in remote, conflict-prone, and occasionally faction-controlled zones all contribute to incomplete data collection. However, based on the International Organization on Migration’s collection efforts, we have a sense of scale and a useful metric for comparison. 
+     
+Approximately 90% of mixed migration flowing into Yemen originates from Ethiopia, while the remainder is sourced from Somalia.  Arrivals into Yemen peaked in 2016, with over 117,000 mixed migrants arriving to Yemen, according to the IOM’s Missing Migrants Project.  In 2018, 93,091 migrants from the Horn of Africa were counted in southern Yemen (migrants almost exclusively arrive in the south). For reference, 141,472 migrants were counted arriving to Europe via all maritime Mediterranean routes during that same year.  While shorter in distance than many Mediterranean crossings, the Red Sea routes are no less fraught, with a popular passage between Djibouti and Yemen earning the moniker bab el-mandeb, or “the gate of grief.”  Migration numbers have increased in recent months, making the Red Sea crossing into Yemen the busiest migration route in eastern Africa. 
+
+These mass out-migration flows from the Horn of Africa into Yemen are complicated by Yemen’s host of domestic problems: food insecurity, mass starvation, water shortages, aerial bombardments, and violent conflict. All of these combine into what Daniel Varisco (and most of the international community) describes as a “humanitarian and environmental disaster”  that has besieged one of the driest countries in the world. Yemen has no actual river network, instead relying on a capricious system of wadis that direct seasonal floodwaters. To adapt to inconsistent water sources, Yemenis traditionally captured water via run-off harvesting infrastructure. This traditional method was replaced by tube wells which rely on a finite source of underground water, to the detriment of collection capabilities in increasingly dry times. Exacerbating the water shortage is a fuel shortage that makes it impossible to run the fuel-powered well pumps.  
+     
+Another exacerbating factor is the fact that the civil war has displaced thousands of farmers. As Varisco asserts, with no one maintaining the delicate terrace irrigation infrastructure in the north, erosion has become an increasing problem due to the collapse of these terraces. Water collecting and retrieving infrastructure has also been destroyed by various Saudi-led bombing campaigns in Houthi-controlled areas. 
+
+UNHCR reports that 3 million Yemenis have been displaced, more than half of the population is “on the brink of starvation,” and ¾ of the population requires some form of humanitarian assistance.  Against this backdrop, it’s a small wonder that migrants chose to make the journey to Yemen at all. Judging by IOM surveys taken in Djibouti, the launching point for maritime journeys to Yemen, most migrants are well aware of the conflict in Yemen, but do not believe that it will affect them. Similarly, a study conducted by the Mixed Migration Center found that risks associated with the journey did not deter migrants.  However, according to CNN, the penetration of knowledge about the civil war is limited to metropolitan areas, with rural, inland Ethiopians receiving less education about the risks. 
+
+```{r, data, cache = TRUE}
+
+here()
+conflict <- read_csv("1900-01-01-2019-10-17-Yemen.csv")
+
+smol <- conflict %>% 
+  select("event_date", "event_type", "sub_event_type", "actor1", "admin2", "location", "latitude", "longitude", "fatalities")
+```
+
+```{r, cache = TRUE}
+
+plot <- ggplot(smol, aes(x =event_date, y = fatalities, color = event_type, fill = event_type)) +
+  geom_col() +
+  facet_wrap(~ event_type) +
+  labs(title = "Fatalities in the Yemeni Civil War")
+
+plot
+
+```
+
